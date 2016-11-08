@@ -240,7 +240,7 @@ class CiphertextMessage(Message):
 
 
 def decrypt_story(Instance):
-    print(Instance.decrypt_message())
+    return Instance.decrypt_message()
 
 decrypt_story(CiphertextMessage(get_story_string()))
 """
