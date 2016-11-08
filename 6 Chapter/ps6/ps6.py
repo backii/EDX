@@ -239,6 +239,11 @@ class CiphertextMessage(Message):
 
 
 
+def decrypt_story(Instance):
+    print(Instance.decrypt_message())
+
+decrypt_story(CiphertextMessage(get_story_string()))
+"""
 #Example test case (PlaintextMessage)
 plaintext = PlaintextMessage('hello', 2)
 print('Expected Output: jgnnq')
@@ -248,3 +253,4 @@ print('Actual Output:', plaintext.get_message_text_encrypted())
 ciphertext = CiphertextMessage('jgnnq, lol 99 192ula 109o')
 print('Expected Output:', (24, 'hello'))
 print('Actual Output:', ciphertext.decrypt_message())
+"""
