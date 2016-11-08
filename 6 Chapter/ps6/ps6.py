@@ -11,14 +11,14 @@ def load_words(file_name):
     Depending on the size of the word list, this function may
     take a while to finish.
     '''
-    print('Loading word list from file...')
+    #print('Loading word list from file...')
     # inFile: file
     in_file = open(file_name, 'r')
     # line: string
     line = in_file.readline()
     # word_list: list of strings
     word_list = line.split()
-    print('  ', len(word_list), 'words loaded.')
+    #print('  ', len(word_list), 'words loaded.')
     in_file.close()
     return word_list
 
@@ -38,7 +38,7 @@ def is_word(word_list, word):
     False
     '''
     word = word.lower()
-    word = word.strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
+    word = word.strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./")
     return word in word_list
 
 ### DO NOT MODIFY THIS FUNCTION ###
@@ -128,7 +128,10 @@ class Message(object):
         crypted_message=''
 
         for char in self.message_text:
-            crypted_message += crypted[char]
+            if char in string.ascii_uppercase or char in string.ascii_lowercase:
+                crypted_message += crypted[char]
+            else:
+                crypted_message += char
 
         return crypted_message
 
@@ -222,15 +225,17 @@ class CiphertextMessage(Message):
         and the decrypted message text using that shift value
         '''
         best_choices = {}
+        word_list = load_words(WORDLIST_FILENAME)
         for num in range(26):
-            second_best = 0
-            decrypted_message = ''
-            for word in self.message_text.spli():
-                decrypted_word = self.apply_shift(26-num)
-                if is_word(WORDLIST_FILENAME,decrypted_word):
-                    second_best += 1
-                    decrypted_message += decrypted_message
-            best_choices[num] = decrypted_message
+            best = 0
+            decrypted_word = ""
+            decrypted_message = self.apply_shift(26-num)
+            for word in decrypted_message.split(" "):
+                if is_word(word_list, word):
+                    best += 1
+                    decrypted_word += word + " "
+            best_choices[best] = (26-num, decrypted_word.strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./"))
+        return best_choices[max(best_choices.keys())]
 
 
 
